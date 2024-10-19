@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Best-Performing Student Recognition System</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Best-Performing Student Recognition System</h1>
+
+        <h2>Add New Student</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="text" name="department" placeholder="Department" required>
+            <input type="number" name="admission_year" placeholder="Admission Year" min="2000" max="2024" required>
+            <input type="number" step="0.1" name="gpa" placeholder="GPA" min="0" max="10" required>
+            <input type="number" step="0.1" name="core_course_grades" placeholder="Core Course Grades" min="0" max="10" required>
+            <input type="number" name="hackathons" placeholder="Hackathons Participated" min="0" required>
+            <input type="number" name="papers" placeholder="Papers Presented" min="0" required>
+            <input type="number" name="teacher_contributions" placeholder="Teacher Contributions" min="0" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <h2>Top 3 Students</h2>
+        <ul class="top-students">
+        {% for index, row in top_students.iterrows() %}
+            <li>{{ index + 1 }}. {{ row.name }} - Rank: {{ row.ranking }}</li>
+        {% endfor %}
+        </ul>
+
+        <a href="{{ url_for('calculate_rankings') }}" class="calculate-button">Calculate Rankings</a>
+    </div>
+</body>
+</html>
